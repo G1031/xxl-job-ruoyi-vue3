@@ -1,30 +1,31 @@
 <template>
   <div class="navbar">
-    <hamburger id="hamburger-container" :is-active="appStore.sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
-    <breadcrumb id="breadcrumb-container" class="breadcrumb-container" v-if="!settingsStore.topNav" />
-    <top-nav id="topmenu-container" class="topmenu-container" v-if="settingsStore.topNav" />
+    <hamburger id="hamburger-container" :is-active="appStore.sidebar.opened" class="hamburger-container"
+               @toggleClick="toggleSideBar"/>
+    <breadcrumb id="breadcrumb-container" class="breadcrumb-container" v-if="!settingsStore.topNav"/>
+    <top-nav id="topmenu-container" class="topmenu-container" v-if="settingsStore.topNav"/>
 
     <div class="right-menu">
       <template v-if="appStore.device !== 'mobile'">
-        <header-search id="header-search" class="right-menu-item" />
-        <screenfull id="screenfull" class="right-menu-item hover-effect" />
+        <screenfull id="screenfull" class="right-menu-item hover-effect"/>
         <el-tooltip content="布局大小" effect="dark" placement="bottom">
-          <size-select id="size-select" class="right-menu-item hover-effect" />
+          <size-select id="size-select" class="right-menu-item hover-effect"/>
         </el-tooltip>
       </template>
       <div class="avatar-container">
         <el-dropdown @command="handleCommand" class="right-menu-item hover-effect" trigger="click">
           <div class="avatar-wrapper" style="display: flex">
-            <img :src="userStore.avatar" class="user-avatar" />
-            <span style="margin: 2px 0 0 8px; font-size: 28px;">{{ userStore.name }}</span>
-            <el-icon><caret-bottom /></el-icon>
+            <span style="margin: 6px 0 0 4px; font-size: 20px;">{{ userStore.name }}</span>
+            <el-icon>
+              <caret-bottom/>
+            </el-icon>
           </div>
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="chpwd">
                 <span>修改密码</span>
               </el-dropdown-item>
-              <el-dropdown-item command="setLayout" v-if="settingsStore.showSettings">
+              <el-dropdown-item command="setLayout">
                 <span>布局设置</span>
               </el-dropdown-item>
               <el-dropdown-item divided command="logout">
@@ -41,7 +42,7 @@
 </template>
 
 <script setup>
-import { ElMessageBox } from 'element-plus'
+import {ElMessageBox} from 'element-plus'
 import Breadcrumb from '@/components/Breadcrumb'
 import TopNav from '@/components/TopNav'
 import Hamburger from '@/components/Hamburger'
@@ -58,7 +59,7 @@ const appStore = useAppStore()
 const userStore = useUserStore()
 const settingsStore = useSettingsStore()
 
-const { proxy } = getCurrentInstance();
+const {proxy} = getCurrentInstance();
 
 function toggleSideBar() {
   appStore.toggleSideBar()
@@ -93,10 +94,12 @@ function logout() {
     userStore.logOut().then(() => {
       location.href = '/';
     })
-  }).catch(() => { });
+  }).catch(() => {
+  });
 }
 
 const emits = defineEmits(['setLayout'])
+
 function setLayout() {
   emits('setLayout');
 }

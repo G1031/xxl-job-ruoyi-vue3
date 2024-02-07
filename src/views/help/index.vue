@@ -2,7 +2,7 @@
   <div>
     <!-- Main content -->
     <section class="content">
-      <div class="callout callout-info">
+      <div class="callout callout-info" style="margin-left: 10px">
         <h4>分布式任务调度平台XXL-JOB</h4>
         <br>
         <p>
