@@ -2,7 +2,7 @@
   "name": "xxl-job-ruoyi-vue3",
   "version": "1.0.0",
   "description": "xxl-job-ruoyi-vue3",
-  "author": "shrimp",
+  "author": "jiffgao",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/wkclz/xxl-job-ruoyi-vue3.git"
+    "url": "https://github.com/G1031/xxl-job-ruoyi-vue3.git"
   },
   "dependencies": {
     "@element-plus/icons-vue": "2.3.1",

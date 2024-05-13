@@ -1,16 +1,18 @@
 <template>
   <div class="app-container home">
+    <!-- 调度统计 -->
+    <!--    <panel-group :group-data="panelGroupData"/>-->
     <el-row :gutter="20">
-      <el-col :span="12">
-        <welcome />
+<!--      <el-col :span="12">
+        <welcome/>
       </el-col>
       <el-col :span="12">
         <blockquote class="text-warning" style="font-size: 14px">
           使用 Ruoyi-Vue3 重新实现 xxl-job 的管理后台页面. 只包含 UI
         </blockquote>
-      </el-col>
+      </el-col>-->
     </el-row>
-    <el-divider />
+    <el-divider/>
     <el-row :gutter="20">
       <el-col :span="16" style="padding-left: 20px">
         <div id="lineChart" style="height: 350px;"></div>
@@ -23,26 +25,34 @@
 </template>
 
 <script setup name="Index">
-import Welcome from "./conponents/welcome";
 import {chartInfo} from '@/api/common'
 import {parseTime} from "@/utils/ruoyi";
 
 import * as echarts from 'echarts';
+import PanelGroup from "@/views/dashboard/conponents/PanelGroup.vue";
 
 const chart = ref({});
 
 function init() {
   const now = new Date();
-  const startDate = parseTime(now.setDate(now.getDate()-7), '{y}-{m}-{d}') + ' 00:00:00';
+  const startDate = parseTime(now.setDate(now.getDate() - 7), '{y}-{m}-{d}') + ' 00:00:00';
   const endDate = parseTime(new Date(), '{y}-{m}-{d}') + ' 23:59:59'
+  // const panelGroupData = {
+  //   jobInfoCount: 0,
+  //   jobLogCount: 0,
+  //   executorCount: 0
+  // }
 
   chartInfo({startDate, endDate}).then(res => {
     chart.value = res.content;
+    // panelGroupData.jobInfoCount = chart.value.jobInfoCount
+    // panelGroupData.jobLogCount = chart.value.jobLogCount
+    // panelGroupData.executorCount = chart.value.executorCount
+    console.log(chart.value)
     lineChartInit(chart.value)
     pieChartInit(chart.value);
   })
 }
-
 
 
 function lineChartInit(data) {
@@ -50,7 +60,7 @@ function lineChartInit(data) {
     title: {
       text: '日期分布图'
     },
-    tooltip : {
+    tooltip: {
       trigger: 'axis',
       axisPointer: {
         type: 'cross',
@@ -60,7 +70,7 @@ function lineChartInit(data) {
       }
     },
     legend: {
-      data:['成功', '失败', '进行中' ]
+      data: ['成功', '失败', '进行中']
     },
     toolbox: {
       feature: {
@@ -73,29 +83,29 @@ function lineChartInit(data) {
       bottom: '3%',
       containLabel: true
     },
-    xAxis : [
+    xAxis: [
       {
-        type : 'category',
-        boundaryGap : false,
-        data : data.triggerDayList
+        type: 'category',
+        boundaryGap: false,
+        data: data.triggerDayList
       }
     ],
-    yAxis : [
+    yAxis: [
       {
-        type : 'value'
+        type: 'value'
       }
     ],
-    series : [
+    series: [
       {
         name: '成功',
-        type:'line',
+        type: 'line',
         stack: 'Total',
         areaStyle: {normal: {}},
         data: data.triggerDayCountSucList
       },
       {
         name: '失败',
-        type:'line',
+        type: 'line',
         stack: 'Total',
         label: {
           normal: {
@@ -108,13 +118,13 @@ function lineChartInit(data) {
       },
       {
         name: '进行中',
-        type:'line',
+        type: 'line',
         stack: 'Total',
         areaStyle: {normal: {}},
         data: data.triggerDayCountRunningList
       }
     ],
-    color:['#00A65A', '#c23632', '#F39C12']
+    color: ['#00A65A', '#c23632', '#F39C12']
   };
 
   var lineChart = echarts.init(document.getElementById('lineChart'));
@@ -123,38 +133,38 @@ function lineChartInit(data) {
 
 function pieChartInit(data) {
   var option = {
-    title : {
-      text: '成功比例图' ,
+    title: {
+      text: '成功比例图',
       /*subtext: 'subtext',*/
-      x:'center'
+      x: 'center'
     },
-    tooltip : {
+    tooltip: {
       trigger: 'item',
       formatter: "{b} : {c} ({d}%)"
     },
     legend: {
       orient: 'vertical',
       left: 'left',
-      data: ['成功', '失败', '进行中' ]
+      data: ['成功', '失败', '进行中']
     },
-    series : [
+    series: [
       {
         //name: '分布比例',
         type: 'pie',
-        radius : '55%',
+        radius: '55%',
         center: ['50%', '60%'],
-        data:[
+        data: [
           {
             name: '成功',
-            value:data.triggerCountSucTotal
+            value: data.triggerCountSucTotal
           },
           {
             name: '失败',
-            value:data.triggerCountFailTotal
+            value: data.triggerCountFailTotal
           },
           {
             name: '进行中',
-            value:data.triggerCountRunningTotal
+            value: data.triggerCountRunningTotal
           }
         ],
         itemStyle: {
@@ -166,7 +176,7 @@ function pieChartInit(data) {
         }
       }
     ],
-    color:['#00A65A', '#c23632', '#F39C12']
+    color: ['#00A65A', '#c23632', '#F39C12']
   };
   var pieChart = echarts.init(document.getElementById('pieChart'));
   pieChart.setOption(option);
@@ -184,12 +194,14 @@ init();
     font-size: 17.5px;
     border-left: 5px solid #eee;
   }
+
   hr {
     margin-top: 20px;
     margin-bottom: 20px;
     border: 0;
     border-top: 1px solid #eee;
   }
+
   .col-item {
     margin-bottom: 20px;
   }
